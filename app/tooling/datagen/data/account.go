@@ -75,9 +75,9 @@ type ValidFor struct {
 }
 
 type ContactMedium struct {
-	Type string `json:"@type"`
-	//BaseType       string     `json:"@baseType"`
-	//SchemaLoc      string     `json:"@schemaLocation"`
+	//Type string `json:"@type" faker:"-"`
+	//BaseType       string     `json:"@baseType" faker:"-"`
+	//SchemaLoc      string     `json:"@schemaLocation" faker:"-"`
 	MediumType     string     `json:"mediumType" faker:"oneof: PostalAddress"`
 	Preferred      bool       `json:"preferred"`
 	Characteristic MediumChar `json:"characteristic"`
@@ -86,35 +86,35 @@ type ContactMedium struct {
 
 type MediumChar struct {
 	City         string `json:"city" faker:"oneof: Oldenburg"`
-	Country      string `json:"country" faker:"oneof: Germany"`
-	EmailAddress string `json:"emailAddress" faker:"email"`
-	FaxNumber    string `json:"faxNumber" faker:"e_164_phone_number"`
-	PhoneNumber  string `json:"phoneNumber" faker:"e_164_phone_number"`
-	PostCode     string `json:"postCode" faker:"oneof: 26133, 26121, 26131"`
+	Country      string `json:"country" faker:"oneof: Deutschland"`
+	EmailAddress string `json:"emailAddress" faker:"oneof: jane.doe@example.com, john.doe@example.com, peter.parker@example.com"`
+	FaxNumber    string `json:"faxNumber" faker:"oneof: +49 441 45910, +49 441 32500, +49 441 9123-99"`
+	PhoneNumber  string `json:"phoneNumber" faker:"oneof: +49 441 45912, +49 441 32509, +49 441 9123-0"`
+	PostCode     string `json:"postCode" faker:"oneof: 26121, 26122, 26135"`
 	//SocialNetworkId string `json:"socialNetworkId"`
 	StateOrProvince string `json:"stateOrProvince" faker:"oneof: Niedersachsen"`
-	Street1         string `json:"street1" faker:"oneof: Peterstr. 12, Gaststr. 44"`
+	Street1         string `json:"street1" faker:"oneof: Lange Straße, Schlossplatz, Elisabethstraße, Heiligengeiststraße"`
 	//Street2         string `json:"street2"`
 	//BaseType        string `json:"@baseType"`
 	//SchemaLocation  string `json:"@schemaLocation"`
-	Type string `json:"@type"`
+	//Type string `json:"@type"`
 }
 
 type RelatedParty struct {
-	//Type           string `json:"@type"`
-	//ReferredType   string `json:"@referredType"`
-	//BaseType       string `json:"@baseType"`
-	//SchemaLocation string `json:"@schemaLocation"`
-	//Href           string `json:"href"`
-	//ID             string `json:"id"`
+	//Type           string `json:"@type" faker:"-"`
+	//ReferredType   string `json:"@referredType" faker:"-"`
+	//BaseType       string `json:"@baseType" faker:"-"`
+	//SchemaLocation string `json:"@schemaLocation" faker:"-"`
+	//Href           string `json:"href" faker:"-"`
+	//ID             string `json:"id" faker:"-"`
 	Name string `json:"name" faker:"name"`
 	Role string `json:"role" faker:"oneof: owner"`
 }
 
 type Characteristic struct {
-	Type string `json:"@type"`
-	//BaseType  string `json:"@baseType"`
-	//SchemaLoc string `json:"@schemaLocation"`
+	//Type string `json:"@type" faker:"-"`
+	//BaseType  string `json:"@baseType" faker:"-"`
+	//SchemaLoc string `json:"@schemaLocation" faker:"-"`
 	Name      string `json:"name"`
 	ValueType string `json:"valueType"`
 	Value     string `json:"value"`

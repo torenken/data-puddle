@@ -1,5 +1,5 @@
 # =====
 # Generating fake data
 
-fake:
-	go run app/tooling/datagen/main.go
+fake-bin:
+	go build -o ./build/datagen ./app/tooling/datagen/main.go

@@ -2,21 +2,48 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
-	"time"
+	"log"
+	"os"
 
 	"github.com/go-faker/faker/v4"
 	"github.com/torenken/data-puddle/app/tooling/datagen/data"
 )
 
-func main() {
-	now := time.Now()
-	num := 10
+var (
+	n = flag.Int("n", 3, "")
+)
 
+var usage = `Usage: datagen [options...] <choose account|...>
+
+Options:
+  -n  Number of entries to generate the records. Default is 3.
+`
+
+func main() {
+	flag.Usage = func() { _, _ = fmt.Fprintf(os.Stderr, "%s\n", usage) }
+
+	flag.Parse()
+	if flag.NArg() < 1 {
+		usageAndExit()
+	}
+	num := *n
+	t := flag.Args()[0]
+	switch t {
+	case "account":
+		handleAccount(num)
+	default:
+		usageAndExit()
+	}
+}
+
+func handleAccount(num int) {
 	var billingAccounts []data.BillingAccount
 	accountChannel := make(chan data.BillingAccount)
 
 	account := data.BillingAccount{}
+
 	for i := 0; i < num; i++ {
 		go func() {
 			err := faker.FakeData(&account)
@@ -32,17 +59,13 @@ func main() {
 		billingAccounts = append(billingAccounts, r)
 	}
 
-	/*	for i := 0; i < 1; i++ {
-		err := faker.FakeData(&account)
-		if err != nil {
-			fmt.Println(err)
-		}
-		billingAccounts = append(billingAccounts, account)
-	}*/
+	if err := json.NewEncoder(os.Stdout).Encode(&billingAccounts); err != nil {
+		log.Fatal(err)
+	}
+}
 
-	indent, _ := json.MarshalIndent(&billingAccounts, "", "\t")
-	fmt.Println(string(indent))
-
-	since := time.Since(now)
-	fmt.Printf("its tooks: %v\n", since)
+func usageAndExit() {
+	flag.Usage()
+	_, _ = fmt.Fprintf(os.Stderr, "\n")
+	os.Exit(1)
 }
