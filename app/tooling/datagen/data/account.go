@@ -1,29 +1,23 @@
 package data
 
 type BillingAccount struct {
-	Type string `json:"@type" faker:"oneof: BillingAccount"`
-	//BaseType        *string          `json:"@baseType" faker:"-"`
-	//SchemaLocation  *string          `json:"@schemaLocation" faker:"-"`
-	//Href            *string          `json:"href" faker:"-"`
-	ID             int            `json:"id" faker:"boundary_start=100000000, boundary_end=999999999"`
-	AccountType    *string        `json:"accountType" faker:"oneof: private, business"`
-	Description    string         `json:"description" faker:"name"`
-	LastModified   *string        `json:"lastModified" faker:"timestamp"`
-	Name           int            `json:"name" faker:"boundary_start=7890000520, boundary_end=7990000520"`
-	PaymentStatus  *string        `json:"paymentStatus" faker:"oneof: paid, in arrears"`
-	RatingType     *string        `json:"ratingType" faker:"oneof: prepaid, postpaid"`
-	State          string         `json:"state" faker:"oneof: ordered, active, canceled, terminated"`
-	AccountBalance AccountBalance `json:"accountBalance"` //remove array - only need one
-	//AccountRelation  *string          `json:"accountRelationship" faker:"-"` //todo
-	//BillStructure    *string          `json:"billStructure" faker:"-"`       //todo
+	Type             string           `json:"@type" faker:"oneof: BillingAccount"`
+	ID               int              `json:"id" faker:"boundary_start=100000000, boundary_end=999999999"`
+	AccountType      *string          `json:"accountType" faker:"oneof: private, business"`
+	Description      string           `json:"description" faker:"name"`
+	LastModified     *string          `json:"lastModified" faker:"timestamp"`
+	Name             int              `json:"name" faker:"boundary_start=7890000520, boundary_end=7990000520"`
+	PaymentStatus    *string          `json:"paymentStatus" faker:"oneof: paid, in arrears"`
+	RatingType       *string          `json:"ratingType" faker:"oneof: prepaid, postpaid"`
+	State            string           `json:"state" faker:"oneof: ordered, active, canceled, terminated"`
+	AccountBalance   []AccountBalance `json:"accountBalance" faker:""`
 	CreditLimit      int              `json:"creditLimit" faker:"boundary_start=500, boundary_end=2000"`
 	PaymentMethod    PaymentMethod    `json:"defaultPaymentMethod"`
 	FinancialAccount FinancialAccount `json:"financialAccount"`
-	PaymentPlan      PaymentPlan      `json:"paymentPlan"`  //remove array - only need one
-	Contacts         Contact          `json:"contact"`      //remove array - only need one
-	RelatedParty     RelatedParty     `json:"relatedParty"` //remove array - only need one
+	PaymentPlan      []PaymentPlan    `json:"paymentPlan"`
+	Contacts         []Contact        `json:"contact"`
+	RelatedParty     []RelatedParty   `json:"relatedParty"`
 	TaxExemption     TaxExemption     `json:"taxExemption"`
-	//Characteristic   Characteristic   `json:"characteristic" faker:"-"` //remove array - only need one
 }
 
 type TaxExemption struct {
@@ -55,18 +49,16 @@ type AccountBalance struct {
 }
 
 type PaymentMethod struct {
-	//Href *string `json:"href" faker:"-"`
-	//ID   int     `json:"id" faker:"-"`
 	Name string `json:"name" faker:"oneof: direct debit, professional payment, family payment"`
 }
 
 type Contact struct {
-	ContactName   string        `json:"contactName" faker:"name"`
-	ContactType   string        `json:"contactType" faker:"oneof: primary"  `
-	PartyRoleType string        `json:"partyRoleType" faker:"oneof: publisher"  `
-	RelatedParty  RelatedParty  `json:"relatedParty"`
-	ValidFor      ValidFor      `json:"validFor"`
-	ContactMedium ContactMedium `json:"contactMedium"` //remove array - only need one
+	ContactName   string          `json:"contactName" faker:"name"`
+	ContactType   string          `json:"contactType" faker:"oneof: primary"`
+	PartyRoleType string          `json:"partyRoleType" faker:"oneof: publisher"`
+	RelatedParty  RelatedParty    `json:"relatedParty"`
+	ValidFor      ValidFor        `json:"validFor"`
+	ContactMedium []ContactMedium `json:"contactMedium"`
 }
 
 type ValidFor struct {
@@ -75,9 +67,6 @@ type ValidFor struct {
 }
 
 type ContactMedium struct {
-	//Type string `json:"@type" faker:"-"`
-	//BaseType       string     `json:"@baseType" faker:"-"`
-	//SchemaLoc      string     `json:"@schemaLocation" faker:"-"`
 	MediumType     string     `json:"mediumType" faker:"oneof: PostalAddress"`
 	Preferred      bool       `json:"preferred"`
 	Characteristic MediumChar `json:"characteristic"`
@@ -85,36 +74,22 @@ type ContactMedium struct {
 }
 
 type MediumChar struct {
-	City         string `json:"city" faker:"oneof: Oldenburg"`
-	Country      string `json:"country" faker:"oneof: Deutschland"`
-	EmailAddress string `json:"emailAddress" faker:"oneof: jane.doe@example.com, john.doe@example.com, peter.parker@example.com"`
-	FaxNumber    string `json:"faxNumber" faker:"oneof: +49 441 45910, +49 441 32500, +49 441 9123-99"`
-	PhoneNumber  string `json:"phoneNumber" faker:"oneof: +49 441 45912, +49 441 32509, +49 441 9123-0"`
-	PostCode     string `json:"postCode" faker:"oneof: 26121, 26122, 26135"`
-	//SocialNetworkId string `json:"socialNetworkId"`
+	City            string `json:"city" faker:"oneof: Oldenburg"`
+	Country         string `json:"country" faker:"oneof: Deutschland"`
+	EmailAddress    string `json:"emailAddress" faker:"oneof: jane.doe@example.com, john.doe@example.com, peter.parker@example.com"`
+	FaxNumber       string `json:"faxNumber" faker:"oneof: +49 441 45910, +49 441 32500, +49 441 9123-99"`
+	PhoneNumber     string `json:"phoneNumber" faker:"oneof: +49 441 45912, +49 441 32509, +49 441 9123-0"`
+	PostCode        string `json:"postCode" faker:"oneof: 26121, 26122, 26135"`
 	StateOrProvince string `json:"stateOrProvince" faker:"oneof: Niedersachsen"`
 	Street1         string `json:"street1" faker:"oneof: Lange Straße, Schlossplatz, Elisabethstraße, Heiligengeiststraße"`
-	//Street2         string `json:"street2"`
-	//BaseType        string `json:"@baseType"`
-	//SchemaLocation  string `json:"@schemaLocation"`
-	//Type string `json:"@type"`
 }
 
 type RelatedParty struct {
-	//Type           string `json:"@type" faker:"-"`
-	//ReferredType   string `json:"@referredType" faker:"-"`
-	//BaseType       string `json:"@baseType" faker:"-"`
-	//SchemaLocation string `json:"@schemaLocation" faker:"-"`
-	//Href           string `json:"href" faker:"-"`
-	//ID             string `json:"id" faker:"-"`
 	Name string `json:"name" faker:"name"`
 	Role string `json:"role" faker:"oneof: owner"`
 }
 
 type Characteristic struct {
-	//Type string `json:"@type" faker:"-"`
-	//BaseType  string `json:"@baseType" faker:"-"`
-	//SchemaLoc string `json:"@schemaLocation" faker:"-"`
 	Name      string `json:"name"`
 	ValueType string `json:"valueType"`
 	Value     string `json:"value"`

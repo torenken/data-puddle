@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/go-faker/faker/v4"
+	"github.com/go-faker/faker/v4/pkg/options"
 	"github.com/torenken/data-puddle/app/tooling/datagen/data"
 )
 
@@ -43,10 +44,9 @@ func handleAccount(num int) {
 	accountChannel := make(chan data.BillingAccount)
 
 	account := data.BillingAccount{}
-
 	for i := 0; i < num; i++ {
 		go func() {
-			err := faker.FakeData(&account)
+			err := faker.FakeData(&account, options.WithRandomMapAndSliceMinSize(1), options.WithRandomMapAndSliceMaxSize(2))
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -66,6 +66,5 @@ func handleAccount(num int) {
 
 func usageAndExit() {
 	flag.Usage()
-	_, _ = fmt.Fprintf(os.Stderr, "\n")
 	os.Exit(1)
 }
