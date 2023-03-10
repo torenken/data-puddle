@@ -16,7 +16,7 @@ var (
 	n = flag.Int("n", 3, "")
 )
 
-var usage = `Usage: datagen [options...] <choose account|...>
+var usage = `Usage: datagen [options...] <choose account|agreement|...>
 
 Options:
   -n  Number of entries to generate the records. Default is 3.
@@ -33,33 +33,36 @@ func main() {
 	t := flag.Args()[0]
 	switch t {
 	case "account":
-		handleAccount(num)
+		handle(num, data.BillingAccount{})
+	case "agreement":
+		handle(num, data.Agreement{})
 	default:
 		usageAndExit()
 	}
 }
 
-func handleAccount(num int) {
-	var billingAccounts []data.BillingAccount
-	accountChannel := make(chan data.BillingAccount)
+type DataValue interface{}
 
-	account := data.BillingAccount{}
+func handle(num int, content DataValue) {
+	var valueCol []interface{}
+	valueCh := make(chan interface{})
+
 	for i := 0; i < num; i++ {
 		go func() {
-			err := faker.FakeData(&account, options.WithRandomMapAndSliceMinSize(1), options.WithRandomMapAndSliceMaxSize(2))
+			err := faker.FakeData(&content, options.WithRandomMapAndSliceMinSize(1), options.WithRandomMapAndSliceMaxSize(2))
 			if err != nil {
 				fmt.Println(err)
 			}
-			accountChannel <- account
+			valueCh <- content
 		}()
 	}
 
 	for i := 0; i < num; i++ {
-		r := <-accountChannel
-		billingAccounts = append(billingAccounts, r)
+		r := <-valueCh
+		valueCol = append(valueCol, r)
 	}
 
-	if err := json.NewEncoder(os.Stdout).Encode(&billingAccounts); err != nil {
+	if err := json.NewEncoder(os.Stdout).Encode(&valueCol); err != nil {
 		log.Fatal(err)
 	}
 }
