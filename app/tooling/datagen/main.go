@@ -16,7 +16,7 @@ var (
 	n = flag.Int("n", 3, "")
 )
 
-var usage = `Usage: datagen [options...] <choose account|agreement|...>
+var usage = `Usage: datagen [options...] <choose customer|account|agreement|...>
 
 Options:
   -n  Number of entries to generate the records. Default is 3.
@@ -32,6 +32,8 @@ func main() {
 	num := *n
 	t := flag.Args()[0]
 	switch t {
+	case "customer":
+		handle(num, data.Customer{})
 	case "account":
 		handle(num, data.BillingAccount{})
 	case "agreement":
