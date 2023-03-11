@@ -24,7 +24,7 @@ type TaxExemption struct {
 	CertificateNumber   int      `json:"certificateNumber" faker:"boundary_start=45678909876, boundary_end=56789098765"`
 	IssuingJurisdiction string   `json:"issuingJurisdiction" faker:"oneof: Embassy"`
 	Reason              string   `json:"reason" faker:"oneof: VIP"`
-	ValidFor            ValidFor `json:"validFor"`
+	ValidFor            ValidFor `json:"validFor" faker:"validFor"`
 }
 
 type PaymentPlan struct {
@@ -33,7 +33,7 @@ type PaymentPlan struct {
 	Status           string        `json:"status" faker:"oneof: Effective"`
 	TotalAmount      int           `json:"totalAmount" faker:"boundary_start=50, boundary_end=100"`
 	PlanType         string        `json:"planType" faker:"oneof: regular"`
-	ValidFor         ValidFor      `json:"validFor"`
+	ValidFor         ValidFor      `json:"validFor" faker:"validFor"`
 	PaymentMethod    PaymentMethod `json:"paymentMethod"`
 }
 
@@ -45,7 +45,7 @@ type FinancialAccount struct {
 type AccountBalance struct {
 	Amount      float64  `json:"amount" faker:"amount"`
 	BalanceType string   `json:"balanceType" faker:"oneof: ReceivableBalance"`
-	ValidFor    ValidFor `json:"validFor"`
+	ValidFor    ValidFor `json:"validFor" faker:"validFor"`
 }
 
 type PaymentMethod struct {
@@ -57,20 +57,20 @@ type Contact struct {
 	ContactType   string          `json:"contactType" faker:"oneof: primary"`
 	PartyRoleType string          `json:"partyRoleType" faker:"oneof: publisher"`
 	RelatedParty  RelatedParty    `json:"relatedParty"`
-	ValidFor      ValidFor        `json:"validFor"`
+	ValidFor      ValidFor        `json:"validFor" faker:"validFor"`
 	ContactMedium []ContactMedium `json:"contactMedium"`
 }
 
 type ValidFor struct {
-	StartDateTime string `json:"startDateTime" faker:"timestamp"`
-	EndDateTime   string `json:"endDateTime" faker:"timestamp"`
+	StartDateTime string `json:"startDateTime"`
+	EndDateTime   string `json:"endDateTime"`
 }
 
 type ContactMedium struct {
 	MediumType     string     `json:"mediumType" faker:"oneof: PostalAddress"`
 	Preferred      bool       `json:"preferred"`
 	Characteristic MediumChar `json:"characteristic"`
-	ValidFor       ValidFor   `json:"validFor"`
+	ValidFor       ValidFor   `json:"validFor" faker:"validFor"`
 }
 
 type MediumChar struct {

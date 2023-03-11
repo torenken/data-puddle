@@ -12,7 +12,7 @@ type Customer struct {
 	EngagedParty  []RelatedPartyRef `json:"engagedParty"`
 	PaymentMethod []PaymentMethod   `json:"paymentMethod"`
 	RelatedParty  []RelatedPartyRef `json:"relatedParty"`
-	ValidFor      ValidFor          `json:"validFor"`
+	ValidFor      ValidFor          `json:"validFor" faker:"validFor"`
 }
 
 type AccountRef struct {
@@ -41,5 +41,5 @@ type CreditProfile struct {
 	CreditProfileDate string   `json:"creditProfileDate" faker:"timestamp"`
 	CreditRiskRating  int      `json:"creditRiskRating" faker:"boundary_start=1, boundary_end=10"`
 	CreditScore       int      `json:"creditScore" faker:"boundary_start=1, boundary_end=15"`
-	ValidFor          ValidFor `json:"validFor"`
+	ValidFor          ValidFor `json:"validFor" faker:"validFor"`
 }

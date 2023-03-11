@@ -51,6 +51,7 @@ func handle(num int, content DataValue) {
 
 	for i := 0; i < num; i++ {
 		go func() {
+			data.CustomFaker()
 			err := faker.FakeData(&content, options.WithRandomMapAndSliceMinSize(1), options.WithRandomMapAndSliceMaxSize(2))
 			if err != nil {
 				fmt.Println(err)
