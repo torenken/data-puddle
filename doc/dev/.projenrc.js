@@ -3,7 +3,7 @@ const { awscdk } = require('projen');
 const appName = 'data-puddle';
 
 const project = new awscdk.AwsCdkTypeScriptApp({
-  cdkVersion: '2.70.0',
+  cdkVersion: '2.72.0',
   defaultReleaseBranch: 'main',
   authorName: 'Thomas Renken',
   repository: `git@github.com:torenken/${appName}.git`,
@@ -20,6 +20,8 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   jestOptions: {
     jestVersion: '28',
   },
+
+  typescriptVersion: '^4',
 
   //no-github-workflow
   github: false,
