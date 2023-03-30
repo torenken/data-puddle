@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Snapshot 1`] = `
+exports[`DataPuddleStackSnapshotTest 1`] = `
 Object {
   "Parameters": Object {
     "BootstrapVersion": Object {

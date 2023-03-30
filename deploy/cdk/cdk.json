@@ -1,6 +1,9 @@
 {
   "app": "npx ts-node -P tsconfig.json --prefer-ts-exts src/data-puddle-app.ts",
   "context": {
+    "technicalStakeholders": [
+      "test@example.com"
+    ],
     "@aws-cdk/core:newStyleStackSynthesis": true
   },
   "output": "cdk.out",

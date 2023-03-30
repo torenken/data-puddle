@@ -13,6 +13,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   // devDeps: [],                             /* Build dependencies for this module. */
 
   context: {
+    'technicalStakeholders': ['test@example.com'], //todo change email
     '@aws-cdk/core:newStyleStackSynthesis': true,
   },
   appEntrypoint: `${appName}-app.ts`,
