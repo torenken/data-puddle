@@ -170,10 +170,23 @@ Object {
     "DataPuddleSecretECC83D0A": Object {
       "DeletionPolicy": "Delete",
       "Properties": Object {
-        "SecretString": "{\\"encryption_key\\":\\"+\\\\u001a mYv\\\\u0015\\\\u00071Sgzh\`T#E+N\\\\u00025qBBC4\\\\u00009\\\\u0000Wje\\"}",
+        "SecretString": "{\\"encryption_key\\":\\"\\\\\\\\|0\\\\u000e\\\\n\\\\u001a\\\\u00129|K \`\\\\u0001$#m\\\\u00033q9pLYY\\\\u0001W<\\\\u0007F~7\\"}",
       },
       "Type": "AWS::SecretsManager::Secret",
       "UpdateReplacePolicy": "Delete",
+    },
+    "TechnicalNotification33611BF6": Object {
+      "Type": "AWS::SNS::Topic",
+    },
+    "TechnicalNotificationtestexamplecom77EDB6E1": Object {
+      "Properties": Object {
+        "Endpoint": "test@example.com",
+        "Protocol": "email",
+        "TopicArn": Object {
+          "Ref": "TechnicalNotification33611BF6",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
     },
     "TicketOutputBucketAutoDeleteObjectsCustomResource164DB626": Object {
       "DeletionPolicy": "Delete",
