@@ -167,6 +167,14 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
+    "DataPuddleSecretECC83D0A": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "SecretString": "{\\"encryption_key\\":\\"+\\\\u001a mYv\\\\u0015\\\\u00071Sgzh\`T#E+N\\\\u00025qBBC4\\\\u00009\\\\u0000Wje\\"}",
+      },
+      "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
+    },
     "TicketOutputBucketAutoDeleteObjectsCustomResource164DB626": Object {
       "DeletionPolicy": "Delete",
       "DependsOn": Array [
