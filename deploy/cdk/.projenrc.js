@@ -9,7 +9,9 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   repository: `git@github.com:torenken/${appName}.git`,
   name: appName,
 
-  // deps: ['@aws-cdk/aws-lambda-go-alpha'],  /* Runtime dependencies of this module. */
+  deps: [
+    '@aws-cdk/aws-lambda-go-alpha',
+  ],
   // devDeps: [],                             /* Build dependencies for this module. */
 
   context: {
