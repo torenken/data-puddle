@@ -27,19 +27,19 @@ export class DataPuddleApi extends RestApi {
       },
     });
 
-    const serverAlarm = this.metricServerError({period: Duration.minutes(1)})
+    const serverAlarm = this.metricServerError({ period: Duration.minutes(1) })
       .createAlarm(this, 'ApiMetrics5xAlarm', {
         alarmName: 'DataPuddleApiMetrics5xAlarm',
         threshold: 1,
-        evaluationPeriods: 2
+        evaluationPeriods: 2,
       });
     serverAlarm.addAlarmAction(new SnsAction(props.alarmNotification));
 
-    const clientAlarm = this.metricClientError({period: Duration.minutes(5)})
+    const clientAlarm = this.metricClientError({ period: Duration.minutes(5) })
       .createAlarm(this, 'ApiMetrics4xAlarm', {
         alarmName: 'DataPuddleApiMetrics4xAlarm',
         threshold: 3,
-        evaluationPeriods: 1
+        evaluationPeriods: 1,
       });
     clientAlarm.addAlarmAction(new SnsAction(props.alarmNotification));
 
