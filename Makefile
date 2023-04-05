@@ -3,6 +3,12 @@ SHELL := /bin/bash
 .DEFAULT_GOAL := all
 all: build
 
+# ==============================================================================
+# Install dependencies
+
+dev-gotooling:
+	go install golang.org/x/vuln/cmd/govulncheck@latest
+
 # =====
 # Building tooling
 
@@ -38,10 +44,19 @@ deploy-%:
 
 # ==============================================================================
 # Running from within aws
+
 $(ALL_LAMBDAS):
 	$(MAKE) build-$@
 	$(MAKE) zip-$@
 	$(MAKE) deploy-$@
+
+# ==============================================================================
+# Running tests within the local computer
+
+test:
+	CGO_ENABLED=0 go test -count=1 ./...
+	CGO_ENABLED=0 go vet ./...
+	govulncheck ./...
 
 # ==============================================================================
 # Modules support
