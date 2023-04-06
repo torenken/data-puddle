@@ -45,12 +45,30 @@ func main() {
 }
 
 func run() error {
-	fmt.Println("starting data export service 🤘")
-
-	cfg, err := cmdConfig()
-	if err != nil {
-		return fmt.Errorf("prepare config: %w", err)
+	cfg := config{
+		Version: conf.Version{
+			Build: build,
+		},
 	}
+
+	const prefix = "DATA_EXPORT"
+	help, err := conf.Parse(prefix, &cfg)
+	if err != nil {
+		if errors.Is(err, conf.ErrHelpWanted) {
+			fmt.Println(help)
+			return nil
+		}
+
+		out, err := conf.String(&cfg)
+		if err != nil {
+			return fmt.Errorf("generating config for output: %w", err)
+		}
+		fmt.Printf("startup: %v", out)
+
+		return fmt.Errorf("parsing config: %w", err)
+	}
+
+	fmt.Println("starting data export service 🤘")
 
 	exportUrl, err := getPresignedURL(cfg)
 	if err != nil {

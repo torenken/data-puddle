@@ -22,7 +22,7 @@ export class DataPuddleSecret extends Secret {
   constructor(scope: Construct, id: string) {
     super(scope, id, {
       removalPolicy: RemovalPolicy.DESTROY,
-      secretStringValue: SecretValue.unsafePlainText(crypto.randomBytes(32).toString('base64')),
+      secretStringValue: SecretValue.unsafePlainText('Add a 32bit encryption key as base64 encoding later'),
     });
   }
 }
