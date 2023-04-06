@@ -36,5 +36,6 @@ project.setScript('postinstall', 'touch node_modules/go.mod'); //This step is ne
 project.setScript('audit:check', 'yarn audit:level-high && yarn audit:level-critical');
 project.setScript('audit:level-high', '/bin/bash -c \'yarn audit --groups dependencies; [[ $? -ge 8 ]] && exit 1 || exit 0\'');
 project.setScript('audit:level-critical', '/bin/bash -c \'yarn audit --groups devDependencies; [[ $? -ge 16 ]] && exit 1 || exit 0\'');
+project.setScript('encryption-key', 'node keygen.js');
 
 project.synth();

@@ -29,7 +29,8 @@
     "postinstall": "touch node_modules/go.mod",
     "audit:check": "yarn audit:level-high && yarn audit:level-critical",
     "audit:level-high": "/bin/bash -c 'yarn audit --groups dependencies; [[ $? -ge 8 ]] && exit 1 || exit 0'",
-    "audit:level-critical": "/bin/bash -c 'yarn audit --groups devDependencies; [[ $? -ge 16 ]] && exit 1 || exit 0'"
+    "audit:level-critical": "/bin/bash -c 'yarn audit --groups devDependencies; [[ $? -ge 16 ]] && exit 1 || exit 0'",
+    "encryption-key": "node keygen.js"
   },
   "author": {
     "name": "Thomas Renken",
