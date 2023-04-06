@@ -2,6 +2,60 @@
 
 exports[`DataPuddleStackSnapshotTest 1`] = `
 Object {
+  "Outputs": Object {
+    "DataPuddleEndpointDataPuddleApiEndpointEFF9FF43": Object {
+      "Value": Object {
+        "Fn::Join": Array [
+          "",
+          Array [
+            "https://",
+            Object {
+              "Ref": "DataPuddleEndpointDataPuddleApi13AE70D0",
+            },
+            ".execute-api.",
+            Object {
+              "Ref": "AWS::Region",
+            },
+            ".",
+            Object {
+              "Ref": "AWS::URLSuffix",
+            },
+            "/",
+            Object {
+              "Ref": "DataPuddleEndpointDataPuddleApiDeploymentStagedev20619C45",
+            },
+            "/",
+          ],
+        ],
+      },
+    },
+    "DataPuddleEndpointUrl550DD086": Object {
+      "Value": Object {
+        "Fn::Join": Array [
+          "",
+          Array [
+            "https://",
+            Object {
+              "Ref": "DataPuddleEndpointDataPuddleApi13AE70D0",
+            },
+            ".execute-api.",
+            Object {
+              "Ref": "AWS::Region",
+            },
+            ".",
+            Object {
+              "Ref": "AWS::URLSuffix",
+            },
+            "/",
+            Object {
+              "Ref": "DataPuddleEndpointDataPuddleApiDeploymentStagedev20619C45",
+            },
+            "/",
+          ],
+        ],
+      },
+    },
+  },
   "Parameters": Object {
     "BootstrapVersion": Object {
       "Default": "/cdk-bootstrap/hnb659fds/version",
@@ -396,10 +450,615 @@ def submit_response(event: dict, context, response_status: str, error_message: s
       },
       "Type": "AWS::IAM::Role",
     },
+    "DataPuddleEndpointAccessLog5378FD6E": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "RetentionInDays": 90,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "DataPuddleEndpointDataPuddleApi13AE70D0": Object {
+      "Properties": Object {
+        "EndpointConfiguration": Object {
+          "Types": Array [
+            "REGIONAL",
+          ],
+        },
+        "Name": "DataPuddleApi",
+      },
+      "Type": "AWS::ApiGateway::RestApi",
+    },
+    "DataPuddleEndpointDataPuddleApiAccount52487F5D": Object {
+      "DeletionPolicy": "Retain",
+      "DependsOn": Array [
+        "DataPuddleEndpointDataPuddleApi13AE70D0",
+      ],
+      "Properties": Object {
+        "CloudWatchRoleArn": Object {
+          "Fn::GetAtt": Array [
+            "DataPuddleEndpointDataPuddleApiCloudWatchRole1EA79B5B",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ApiGateway::Account",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "DataPuddleEndpointDataPuddleApiApiMetrics4xAlarmCBED819F": Object {
+      "Properties": Object {
+        "AlarmActions": Array [
+          Object {
+            "Ref": "TechnicalNotification33611BF6",
+          },
+        ],
+        "AlarmName": "DataPuddleApiMetrics4xAlarm",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": Array [
+          Object {
+            "Name": "ApiName",
+            "Value": "DataPuddleApi",
+          },
+        ],
+        "EvaluationPeriods": 1,
+        "MetricName": "4XXError",
+        "Namespace": "AWS/ApiGateway",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 3,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "DataPuddleEndpointDataPuddleApiApiMetrics5xAlarm3E176354": Object {
+      "Properties": Object {
+        "AlarmActions": Array [
+          Object {
+            "Ref": "TechnicalNotification33611BF6",
+          },
+        ],
+        "AlarmName": "DataPuddleApiMetrics5xAlarm",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": Array [
+          Object {
+            "Name": "ApiName",
+            "Value": "DataPuddleApi",
+          },
+        ],
+        "EvaluationPeriods": 2,
+        "MetricName": "5XXError",
+        "Namespace": "AWS/ApiGateway",
+        "Period": 60,
+        "Statistic": "Sum",
+        "Threshold": 1,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "DataPuddleEndpointDataPuddleApiCloudWatchRole1EA79B5B": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "apigateway.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "DataPuddleEndpointDataPuddleApiDataPuddleApiKey91CC8425": Object {
+      "Properties": Object {
+        "Enabled": true,
+      },
+      "Type": "AWS::ApiGateway::ApiKey",
+    },
+    "DataPuddleEndpointDataPuddleApiDataPuddleUsagePlan621D283F": Object {
+      "Properties": Object {
+        "ApiStages": Array [
+          Object {
+            "ApiId": Object {
+              "Ref": "DataPuddleEndpointDataPuddleApi13AE70D0",
+            },
+            "Stage": Object {
+              "Ref": "DataPuddleEndpointDataPuddleApiDeploymentStagedev20619C45",
+            },
+            "Throttle": Object {},
+          },
+        ],
+        "Throttle": Object {
+          "BurstLimit": 5,
+          "RateLimit": 10,
+        },
+      },
+      "Type": "AWS::ApiGateway::UsagePlan",
+    },
+    "DataPuddleEndpointDataPuddleApiDataPuddleUsagePlanUsagePlanKeyResourceDataPuddleStackDataPuddleEndpointDataPuddleApiDataPuddleApiKeyF0B4DDE277828F99": Object {
+      "Properties": Object {
+        "KeyId": Object {
+          "Ref": "DataPuddleEndpointDataPuddleApiDataPuddleApiKey91CC8425",
+        },
+        "KeyType": "API_KEY",
+        "UsagePlanId": Object {
+          "Ref": "DataPuddleEndpointDataPuddleApiDataPuddleUsagePlan621D283F",
+        },
+      },
+      "Type": "AWS::ApiGateway::UsagePlanKey",
+    },
+    "DataPuddleEndpointDataPuddleApiDeployment50A8ECC0f11d11453206528bf1d4257c47cff390": Object {
+      "DependsOn": Array [
+        "DataPuddleEndpointDataPuddleApidatalake18CC9F45",
+        "DataPuddleEndpointDataPuddleApidatalaketicketexportGET79152938",
+        "DataPuddleEndpointDataPuddleApidatalaketicketexportFF05237F",
+        "DataPuddleEndpointDataPuddleApidatalaketicketE0C6FAC7",
+      ],
+      "Properties": Object {
+        "Description": "Automatically created by the RestApi construct",
+        "RestApiId": Object {
+          "Ref": "DataPuddleEndpointDataPuddleApi13AE70D0",
+        },
+      },
+      "Type": "AWS::ApiGateway::Deployment",
+    },
+    "DataPuddleEndpointDataPuddleApiDeploymentStagedev20619C45": Object {
+      "DependsOn": Array [
+        "DataPuddleEndpointDataPuddleApiAccount52487F5D",
+      ],
+      "Properties": Object {
+        "AccessLogSetting": Object {
+          "DestinationArn": Object {
+            "Fn::GetAtt": Array [
+              "DataPuddleEndpointAccessLog5378FD6E",
+              "Arn",
+            ],
+          },
+          "Format": "{\\"requestId\\":\\"$context.requestId\\",\\"ip\\":\\"$context.identity.sourceIp\\",\\"user\\":\\"$context.identity.user\\",\\"caller\\":\\"$context.identity.caller\\",\\"requestTime\\":\\"$context.requestTime\\",\\"httpMethod\\":\\"$context.httpMethod\\",\\"resourcePath\\":\\"$context.resourcePath\\",\\"status\\":\\"$context.status\\",\\"protocol\\":\\"$context.protocol\\",\\"responseLength\\":\\"$context.responseLength\\"}",
+        },
+        "DeploymentId": Object {
+          "Ref": "DataPuddleEndpointDataPuddleApiDeployment50A8ECC0f11d11453206528bf1d4257c47cff390",
+        },
+        "MethodSettings": Array [
+          Object {
+            "DataTraceEnabled": false,
+            "HttpMethod": "*",
+            "ResourcePath": "/*",
+            "ThrottlingBurstLimit": 5,
+            "ThrottlingRateLimit": 10,
+          },
+        ],
+        "RestApiId": Object {
+          "Ref": "DataPuddleEndpointDataPuddleApi13AE70D0",
+        },
+        "StageName": "dev",
+      },
+      "Type": "AWS::ApiGateway::Stage",
+    },
+    "DataPuddleEndpointDataPuddleApidatalake18CC9F45": Object {
+      "Properties": Object {
+        "ParentId": Object {
+          "Fn::GetAtt": Array [
+            "DataPuddleEndpointDataPuddleApi13AE70D0",
+            "RootResourceId",
+          ],
+        },
+        "PathPart": "datalake",
+        "RestApiId": Object {
+          "Ref": "DataPuddleEndpointDataPuddleApi13AE70D0",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "DataPuddleEndpointDataPuddleApidatalaketicketE0C6FAC7": Object {
+      "Properties": Object {
+        "ParentId": Object {
+          "Ref": "DataPuddleEndpointDataPuddleApidatalake18CC9F45",
+        },
+        "PathPart": "ticket",
+        "RestApiId": Object {
+          "Ref": "DataPuddleEndpointDataPuddleApi13AE70D0",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "DataPuddleEndpointDataPuddleApidatalaketicketexportFF05237F": Object {
+      "Properties": Object {
+        "ParentId": Object {
+          "Ref": "DataPuddleEndpointDataPuddleApidatalaketicketE0C6FAC7",
+        },
+        "PathPart": "export",
+        "RestApiId": Object {
+          "Ref": "DataPuddleEndpointDataPuddleApi13AE70D0",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "DataPuddleEndpointDataPuddleApidatalaketicketexportGET79152938": Object {
+      "Properties": Object {
+        "ApiKeyRequired": true,
+        "AuthorizationScopes": Array [
+          "datapuddle/ticket-export-url",
+        ],
+        "AuthorizationType": "COGNITO_USER_POOLS",
+        "AuthorizerId": Object {
+          "Ref": "DataPuddleEndpointDataPuddleUserPoolAuthorizer2542990B",
+        },
+        "HttpMethod": "GET",
+        "Integration": Object {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":lambda:path/2015-03-31/functions/",
+                Object {
+                  "Fn::GetAtt": Array [
+                    "DataPuddleEndpointProvideTicketUrlFuncC1FDC52E",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": Object {
+          "Ref": "DataPuddleEndpointDataPuddleApidatalaketicketexportFF05237F",
+        },
+        "RestApiId": Object {
+          "Ref": "DataPuddleEndpointDataPuddleApi13AE70D0",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "DataPuddleEndpointDataPuddleApidatalaketicketexportGETApiPermissionDataPuddleStackDataPuddleEndpointDataPuddleApi4DED3267GETdatalaketicketexport6F9149E3": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "DataPuddleEndpointProvideTicketUrlFuncC1FDC52E",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "DataPuddleEndpointDataPuddleApi13AE70D0",
+              },
+              "/",
+              Object {
+                "Ref": "DataPuddleEndpointDataPuddleApiDeploymentStagedev20619C45",
+              },
+              "/GET/datalake/ticket/export",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "DataPuddleEndpointDataPuddleApidatalaketicketexportGETApiPermissionTestDataPuddleStackDataPuddleEndpointDataPuddleApi4DED3267GETdatalaketicketexportD289E9A0": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "DataPuddleEndpointProvideTicketUrlFuncC1FDC52E",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "DataPuddleEndpointDataPuddleApi13AE70D0",
+              },
+              "/test-invoke-stage/GET/datalake/ticket/export",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "DataPuddleEndpointDataPuddleUserPool04AE47FE": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "AccountRecoverySetting": Object {
+          "RecoveryMechanisms": Array [
+            Object {
+              "Name": "verified_phone_number",
+              "Priority": 1,
+            },
+            Object {
+              "Name": "verified_email",
+              "Priority": 2,
+            },
+          ],
+        },
+        "AdminCreateUserConfig": Object {
+          "AllowAdminCreateUserOnly": true,
+        },
+        "EmailVerificationMessage": "The verification code to your new account is {####}",
+        "EmailVerificationSubject": "Verify your new account",
+        "SmsVerificationMessage": "The verification code to your new account is {####}",
+        "VerificationMessageTemplate": Object {
+          "DefaultEmailOption": "CONFIRM_WITH_CODE",
+          "EmailMessage": "The verification code to your new account is {####}",
+          "EmailSubject": "Verify your new account",
+          "SmsMessage": "The verification code to your new account is {####}",
+        },
+      },
+      "Type": "AWS::Cognito::UserPool",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "DataPuddleEndpointDataPuddleUserPoolAuthorizer2542990B": Object {
+      "Properties": Object {
+        "IdentitySource": "method.request.header.Authorization",
+        "Name": "DataPuddleStackDataPuddleEndpointDataPuddleUserPoolAuthorizerCFC0A550",
+        "ProviderARNs": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "DataPuddleEndpointDataPuddleUserPool04AE47FE",
+              "Arn",
+            ],
+          },
+        ],
+        "RestApiId": Object {
+          "Ref": "DataPuddleEndpointDataPuddleApi13AE70D0",
+        },
+        "Type": "COGNITO_USER_POOLS",
+      },
+      "Type": "AWS::ApiGateway::Authorizer",
+    },
+    "DataPuddleEndpointDataPuddleUserPoolDataPuddleResourceServer35E6E20B": Object {
+      "Properties": Object {
+        "Identifier": "datapuddle",
+        "Name": "datapuddle",
+        "Scopes": Array [
+          Object {
+            "ScopeDescription": "provide url for ticket export",
+            "ScopeName": "ticket-export-url",
+          },
+        ],
+        "UserPoolId": Object {
+          "Ref": "DataPuddleEndpointDataPuddleUserPool04AE47FE",
+        },
+      },
+      "Type": "AWS::Cognito::UserPoolResourceServer",
+    },
+    "DataPuddleEndpointDataPuddleUserPoolDataPuddleUserPoolDomainC67A6C2C": Object {
+      "Properties": Object {
+        "Domain": "datapuddle",
+        "UserPoolId": Object {
+          "Ref": "DataPuddleEndpointDataPuddleUserPool04AE47FE",
+        },
+      },
+      "Type": "AWS::Cognito::UserPoolDomain",
+    },
+    "DataPuddleEndpointDataPuddleUserPoolTicketExportUserPoolClient0F5CBABE": Object {
+      "Properties": Object {
+        "AllowedOAuthFlows": Array [
+          "client_credentials",
+        ],
+        "AllowedOAuthFlowsUserPoolClient": true,
+        "AllowedOAuthScopes": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Ref": "DataPuddleEndpointDataPuddleUserPoolDataPuddleResourceServer35E6E20B",
+                },
+                "/ticket-export-url",
+              ],
+            ],
+          },
+        ],
+        "GenerateSecret": true,
+        "SupportedIdentityProviders": Array [
+          "COGNITO",
+        ],
+        "UserPoolId": Object {
+          "Ref": "DataPuddleEndpointDataPuddleUserPool04AE47FE",
+        },
+      },
+      "Type": "AWS::Cognito::UserPoolClient",
+    },
+    "DataPuddleEndpointProvideTicketUrlFuncC1FDC52E": Object {
+      "DependsOn": Array [
+        "DataPuddleEndpointProvideTicketUrlFuncServiceRoleDefaultPolicy635F0132",
+        "DataPuddleEndpointProvideTicketUrlFuncServiceRoleF35412BB",
+      ],
+      "Properties": Object {
+        "Architectures": Array [
+          "arm64",
+        ],
+        "Code": Object {
+          "S3Bucket": Object {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "134dd3976a779a43897b0d6e38a6d589e224933f1485899f2317459c0263aaa7.zip",
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "TICKET_BUCKET_NAME": Object {
+              "Ref": "TicketOutputBucketD3B5E3FA",
+            },
+          },
+        },
+        "FunctionName": "data-puddle-provide-ticket-url",
+        "Handler": "bootstrap",
+        "MemorySize": 1024,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "DataPuddleEndpointProvideTicketUrlFuncServiceRoleF35412BB",
+            "Arn",
+          ],
+        },
+        "Runtime": "provided.al2",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "DataPuddleEndpointProvideTicketUrlFuncLogRetention3309ACC3": Object {
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "/aws/lambda/",
+              Object {
+                "Ref": "DataPuddleEndpointProvideTicketUrlFuncC1FDC52E",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 90,
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "DataPuddleEndpointProvideTicketUrlFuncServiceRoleDefaultPolicy635F0132": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "TicketOutputBucketD3B5E3FA",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "TicketOutputBucketD3B5E3FA",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "DataPuddleEndpointProvideTicketUrlFuncServiceRoleDefaultPolicy635F0132",
+        "Roles": Array [
+          Object {
+            "Ref": "DataPuddleEndpointProvideTicketUrlFuncServiceRoleF35412BB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "DataPuddleEndpointProvideTicketUrlFuncServiceRoleF35412BB": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
     "DataPuddleSecretECC83D0A": Object {
       "DeletionPolicy": "Delete",
       "Properties": Object {
-        "SecretString": "{\\"encryption_key\\":\\"P\\\\u0016m\`:)Q3\\\\\\\\U^_\\\\u0001t\\\\u0011isbkm\\\\\\"iNX\\\\t:U\\\\u0010D0/E\\"}",
+        "SecretString": "{\\"secretStringValue\\":\\"Add a 32bit encryption key as base64 encoding later\\"}",
       },
       "Type": "AWS::SecretsManager::Secret",
       "UpdateReplacePolicy": "Delete",
@@ -644,6 +1303,16 @@ def submit_response(event: dict, context, response_status: str, error_message: s
                   ],
                 },
               ],
+            },
+            Object {
+              "Action": Array [
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Ref": "DataPuddleSecretECC83D0A",
+              },
             },
           ],
           "Version": "2012-10-17",

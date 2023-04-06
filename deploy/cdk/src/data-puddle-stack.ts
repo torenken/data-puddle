@@ -5,6 +5,7 @@ import { Construct } from 'constructs';
 import { DataPuddleBucket } from './data-puddle-bucket';
 import { DataPuddleHandler } from './data-puddle-handler';
 import { DataPuddleSecret } from './data-puddle-secret';
+import { DataPuddleEndpoint } from './endpoint/data-puddle-endpoint';
 import { TechnicalNotification } from './technical-notification';
 
 export interface DataPuddleStackProps extends StackProps {
@@ -18,7 +19,7 @@ export class DataPuddleStack extends Stack {
     //secret & notification
     const secret = new DataPuddleSecret(this, 'DataPuddleSecret');
 
-    new TechnicalNotification(this, 'TechnicalNotification', {
+    const notification = new TechnicalNotification(this, 'TechnicalNotification', {
       emailAddresses: props.emailAddresses,
     });
 
@@ -46,5 +47,11 @@ export class DataPuddleStack extends Stack {
 
     crmRawBucket.grantRead(provideTicketDataFunc);
     ticketOutputBucket.grantWrite(provideTicketDataFunc);
+    secret.grantRead(provideTicketDataFunc);
+
+    new DataPuddleEndpoint(this, 'DataPuddleEndpoint', {
+      alarmNotification: notification,
+      ticketDataBucket: ticketOutputBucket,
+    });
   }
 }
