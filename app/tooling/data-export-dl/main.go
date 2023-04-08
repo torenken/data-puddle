@@ -68,6 +68,7 @@ func run() error {
 		return fmt.Errorf("parsing config: %w", err)
 	}
 
+	fmt.Println("---->")
 	fmt.Println("starting data export service 🤘")
 
 	exportUrl, err := getPresignedURL(cfg)
@@ -75,19 +76,20 @@ func run() error {
 		return fmt.Errorf("getting presigned url: %w", err)
 	}
 
-	fmt.Println("fetching data from presigned url 🤖")
+	fmt.Println("🔹 fetching data from presigned url 🤖")
 	dataEncrypt, err := fetchData(exportUrl)
 	if err != nil {
 		return fmt.Errorf("fetching data: %w", err)
 	}
 
-	fmt.Println("decrypting data 🤫")
+	fmt.Println("🔹 decrypting data 🤫")
 	data, err := decryptData(dataEncrypt, cfg)
 	if err != nil {
 		return fmt.Errorf("decrypt data: %w", err)
 	}
-	fmt.Printf("result 🥳 => %v\n", string(data))
-
+	fmt.Printf("result 🥳\n")
+	fmt.Println("----<")
+	fmt.Println(string(data))
 	return nil
 }
 
